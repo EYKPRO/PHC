@@ -9,6 +9,7 @@ Instead of separating memory and computation, every unit (molecule) simultaneous
 computes, and communicates via waves — eliminating the bottleneck that limits all computers today.
 
 ## The Problem with Today's Computers
+
 ```
 Memory → Bus → CPU → Bus → Memory
               ↑
@@ -18,6 +19,8 @@ Memory → Bus → CPU → Bus → Memory
 
 Every modern computer, no matter how fast, suffers from this.
 PHC eliminates it entirely.
+
+---
 
 ## 5 Core Principles
 
@@ -47,6 +50,8 @@ PHC eliminates it entirely.
 - PHC: energy passes from molecule to molecule via waves
 - Like the brain — glucose circulates and powers computation
 
+---
+
 ## Benchmark Results
 
 ### TSP — Travelling Salesman Problem (1,000,000 cities)
@@ -70,35 +75,55 @@ Classic: 5,759ms
 PHC is 84x faster
 ```
 
-## Architecture
+---
+
+## Repository Structure
+
 ```
-PHC Grid (50x50 molecules):
-┌─────────────────────────┐
-│  M  →  M  →  M  →  M   │
-│  ↓     ↓     ↓     ↓   │
-│  M  →  M  →  M  →  M   │
-│  ↓     ↓     ↓     ↓   │
-│  M  →  M  →  M  →  M   │
-└─────────────────────────┘
-Every molecule:
-- Holds state 0-9
-- Sends waves to neighbors
-- Receives and computes simultaneously
+PHC/
+├── phc.py          ← Core PHC engine (10-state molecules, wave propagation)
+├── openwave.py     ← OpenWave protocol (multi-grid wave communication)
+├── api-PHC.py      ← Local FastAPI server exposing PHC + OpenWave via HTTP
+├── LICENSE
+└── README.md
 ```
 
-## How It Works
-```python
-# Each tick — ALL molecules update simultaneously
-def tick(self):
-    up    = np.roll(self.states, -1, axis=0)
-    down  = np.roll(self.states,  1, axis=0)
-    left  = np.roll(self.states, -1, axis=1)
-    right = np.roll(self.states,  1, axis=1)
-    waves = (up + down + left + right) / 4.0
-    self.states = np.clip(self.states * 0.85 + waves * 0.15, 0, 9)
+---
+
+## Architecture
+
 ```
+┌─────────────────────────────────────┐
+│             api-PHC.py              │
+│     (FastAPI — localhost:8000)      │
+├──────────────────┬──────────────────┤
+│   openwave.py    │    phc.py        │
+│  (Wave routing   │  (PHC engine     │
+│   multi-grid)    │   10-state grid) │
+└──────────────────┴──────────────────┘
+```
+
+**phc.py** — The core engine. 10-state molecules, wave propagation, parallel compute.
+
+**openwave.py** — Sits on top of PHC. Creates named grids, routes wave signals between them, monitors energy.
+
+**api-PHC.py** — Exposes everything via HTTP. Any program (FakeBrain, scripts, tools) can talk to PHC through this API.
+
+---
 
 ## Quick Start
+
+### 1. Install dependencies
+```bash
+pip install numpy fastapi uvicorn
+```
+
+### 2. Start the API server
+```bash
+python api-PHC.py
+```
+
+### 3. Use PHC directly in Python
 ```python
 from phc import PHC
 
@@ -119,7 +144,70 @@ results = p.compute_parallel([
 ])
 ```
 
+### 4. Use OpenWave
+```python
+from openwave import OpenWave
+
+ow = OpenWave(grid_size=50)
+
+# Create named grids
+ow.create_grid("input")
+ow.create_grid("output")
+
+# Send wave signal between grids
+ow.send("input", "output", value=7.5, cycles=10)
+
+# Monitor energy
+print(ow.snapshot())
+```
+
+### 5. Use via API (HTTP)
+```bash
+# Compute
+curl -X POST http://localhost:8000/phc/compute \
+  -H "Content-Type: application/json" \
+  -d '{"a": 3, "operator": "+", "b": 5}'
+
+# Send wave signal
+curl -X POST http://localhost:8000/openwave/send \
+  -H "Content-Type: application/json" \
+  -d '{"from_grid": "input", "to_grid": "output", "value": 7.5}'
+
+# Full docs
+open http://localhost:8000/docs
+```
+
+---
+
+## API Endpoints
+
+### PHC Engine
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/phc/init` | Initialize new PHC grid |
+| POST | `/phc/tick` | Run N wave cycles |
+| POST | `/phc/compute` | Single computation |
+| POST | `/phc/compute/parallel` | Parallel computations |
+| GET  | `/phc/state` | Get current grid state |
+| POST | `/phc/reset` | Reset grid |
+
+### OpenWave Protocol
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/openwave/grid/create` | Create named grid |
+| GET  | `/openwave/grids` | List all grids |
+| POST | `/openwave/send` | Send signal between grids |
+| POST | `/openwave/broadcast` | Broadcast to all grids |
+| GET  | `/openwave/snapshot` | Energy snapshot of all grids |
+| GET  | `/openwave/energy/{name}` | Energy stats for one grid |
+| GET  | `/openwave/channel/{name}` | Signal history |
+| POST | `/openwave/tick` | Advance all grids |
+| POST | `/openwave/reset` | Reset all grids |
+
+---
+
 ## Roadmap
+
 ```
 Now:
 ✅ Software simulation
@@ -127,31 +215,32 @@ Now:
 ✅ 10 states
 ✅ Parallel computation
 ✅ TSP at 1M cities
+✅ OpenWave protocol
+✅ api-PHC local HTTP server
 
 Future:
+⬜ FakeBrain AI layer (separate repo)
 ⬜ Memristor-based physical implementation
 ⬜ Wave-based hardware communication
 ⬜ True analog states (no binary underneath)
 ⬜ Energy recycling hardware
 ```
 
+---
+
 ## The Vision
 
-PHC software = working now ✅
-
+PHC software = working now ✅  
+OpenWave protocol = working now ✅  
+api-PHC = working now ✅  
 PHC physical = waiting for commercial Memristor.
 
 When Memristor becomes available — the code is ready.
-The architecture is defined.
-The benchmarks are proven.
+The architecture is defined. The benchmarks are proven.
 
-> "We wrote the software before the hardware exists."
+> *"We wrote the software before the hardware exists."*
 
-## Why This Matters
-
-Every computer today has the same bottleneck — memory and compute are separated.
-PHC solves this at the architectural level, not by making existing hardware faster,
-but by rethinking what a computing unit should be.
+---
 
 ## License & Copyright
 
