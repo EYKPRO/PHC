@@ -1,12 +1,97 @@
-Copyright © 2026 Eliya. All Rights Reserved.
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
 
-The PHC (Physical Hybrid Computing) concept, architecture,
-and implementation were created by Eliya (age 13) on March 2026.
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
-This includes:
-- Wave-based molecular computing
-- 10-state in-memory computation  
-- Energy recycling via waves
-- The combination of all above
+   1. Definitions.
 
-No commercial use without written permission from the author.
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Work" shall mean the work of authorship made available under
+      the License, as indicated by a copyright notice included in or
+      attached to the work.
+
+      "Derivative Works" shall mean any work based on or derived from
+      the Work for which modifications represent an original work of authorship.
+
+      "Contribution" shall mean any work of authorship submitted to the
+      Licensor for inclusion in the Work.
+
+      "Contributor" shall mean Licensor and any Legal Entity on behalf of
+      whom a Contribution has been received and incorporated within the Work.
+
+   2. Grant of Copyright License.
+      Each Contributor grants You a perpetual, worldwide, non-exclusive,
+      no-charge, royalty-free, irrevocable copyright license to reproduce,
+      prepare Derivative Works of, publicly display, publicly perform,
+      sublicense, and distribute the Work and such Derivative Works in
+      Source or Object form.
+
+   3. Grant of Patent License.
+      Each Contributor grants You a perpetual, worldwide, non-exclusive,
+      no-charge, royalty-free, irrevocable patent license to make, use,
+      offer to sell, sell, import, and otherwise transfer the Work.
+      If You institute patent litigation alleging that the Work constitutes
+      patent infringement, any patent licenses granted to You under this
+      License shall terminate as of the date such litigation is filed.
+
+   4. Redistribution.
+      You may reproduce and distribute copies of the Work or Derivative
+      Works thereof, provided that You:
+      (a) give recipients a copy of this License;
+      (b) cause modified files to carry prominent notices of changes;
+      (c) retain all copyright, patent, trademark, and attribution notices.
+
+   5. Trademarks.
+      This License does not grant permission to use the trade names,
+      trademarks, or product names of the Licensor, including
+      "PHC" and "OpenWave".
+
+   6. Disclaimer of Warranty.
+      The Work is provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+      CONDITIONS OF ANY KIND, either express or implied.
+
+   7. Limitation of Liability.
+      In no event shall any Contributor be liable for damages arising
+      as a result of this License or out of the use of the Work.
+
+   END OF TERMS AND CONDITIONS
+
+   ─────────────────────────────────────────────────────────────────
+   Copyright 2026 Eliya (EYKPRO)
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+   ─────────────────────────────────────────────────────────────────
+   PROJECT:  PHC — Physical Hybrid Computing
+   AUTHOR:   Eliya, age 13, 2026
+   REPO:     https://github.com/EYKPRO/PHC
+   INCLUDES: phc.py, openwave.py, api-PHC.py
+
+   ─────────────────────────────────────────────────────────────────
+
+   ORIGINAL CONCEPTS PROTECTED UNDER THIS LICENSE:
+     1. 10-state molecular computing units (states 0–9)
+     2. Memory and computation co-located in the same unit
+     3. Wave-based inter-unit communication (OpenWave protocol)
+     4. Energy recycling through wave propagation
+     5. The unified system combining all four principles above
+
+   Any patent claims on the above concepts belong to Eliya.
+   ─────────────────────────────────────────────────────────────────
